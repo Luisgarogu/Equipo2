@@ -54,7 +54,7 @@
                     android:src="@drawable/icon_control" />
 
                 <ImageView
-                    android:id="@+id/volume_button"
+                    android:id="@+id/sound_button"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="end"
