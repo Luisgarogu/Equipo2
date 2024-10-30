@@ -1,4 +1,4 @@
-package com.example.myapplication.fragment
+package com.example.myapplication.view.fragment
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
