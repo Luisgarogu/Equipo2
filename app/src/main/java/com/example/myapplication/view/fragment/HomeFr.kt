@@ -1,4 +1,4 @@
-package com.example.myapplication.fragment
+package com.example.myapplication.view.fragment
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.media.MediaPlayer
@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.myapplication.viewmodel.SoundViewModel
 import kotlin.random.Random
+import androidx.navigation.fragment.findNavController
 
 
 class HomeFr : Fragment() {
@@ -30,8 +31,11 @@ class HomeFr : Fragment() {
     private lateinit var interfaceText: TextView
 
     private lateinit var soundButton: ImageView
+    private lateinit var plusButton: ImageView
     private lateinit var bottle: ImageView
     private var countStart = false
+
+
 
     private val soundViewModel: SoundViewModel by viewModels()
 
@@ -59,7 +63,7 @@ class HomeFr : Fragment() {
         if(soundViewModel.musicEnabled.value == true){
             music.start()
         }
-        //BOTIN PRESIONAME
+        //BOTON PRESIONAME
         val lotButton = binding.pushButton
         val layoutParams = lotButton.layoutParams
 
@@ -88,6 +92,11 @@ class HomeFr : Fragment() {
             }
         }
 
+        plusButton = binding.toolbarContainer.findViewById(R.id.plus_button)
+        plusButton.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_retosListFragment)
+            music.pause()
+        }
 
         //BOTON DE VOLUMEN
         soundButton = binding.toolbarContainer.findViewById(R.id.sound_button)

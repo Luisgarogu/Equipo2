@@ -38,7 +38,7 @@ class RetosListFragment : Fragment(), OnEditClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val toolbar = binding.contentToolbar.toolbar
-        val toolbarTitle: TextView = toolbar.findViewById(R.id.toolbar)
+        val toolbarTitle: TextView = toolbar.findViewById(R.id.toolbarTitle)
         toolbarTitle.text = "Retos"
         toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
