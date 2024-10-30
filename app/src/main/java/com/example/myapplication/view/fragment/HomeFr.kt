@@ -20,6 +20,8 @@ import androidx.fragment.app.viewModels
 import com.example.myapplication.viewmodel.SoundViewModel
 import kotlin.random.Random
 import androidx.navigation.fragment.findNavController
+import com.example.myapplication.view.dialog.RandomRetoDialog
+import com.example.myapplication.viewmodel.RetosViewModel
 
 
 class HomeFr : Fragment() {
@@ -38,6 +40,7 @@ class HomeFr : Fragment() {
 
 
     private val soundViewModel: SoundViewModel by viewModels()
+    private val retosViewModel: RetosViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -108,6 +111,12 @@ class HomeFr : Fragment() {
 
         interfaceText = binding.contText
         interfaceText.visibility = View.GONE
+
+        // Extrae un reto aleatorio de la BD
+        retosViewModel.getRandomReto()
+
+        // Extrae los pokemons de la API
+        retosViewModel.getPokemonlist()
     }
 
     override fun onStop() {
@@ -160,7 +169,14 @@ class HomeFr : Fragment() {
                 if (!firstTime){
 
                     // CARGAR CHALLENGE
-                   // challengesModel.getResults... I GUESS
+                    retosViewModel.getRandomReto()
+
+                    val dialogBuilder = RandomRetoDialog(retosViewModel)
+                    val dialog = dialogBuilder.showDialog(binding.root.context)
+
+                    dialog.setOnDismissListener {
+                        onResume()
+                    }
                     countStart = false
                 }
             }

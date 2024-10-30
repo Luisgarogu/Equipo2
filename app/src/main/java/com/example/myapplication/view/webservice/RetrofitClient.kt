@@ -1,6 +1,6 @@
 package com.example.myapplication.view.webservice
 
-import com.example.myapplication.view.utils.Constants.BASE_URL
+import com.example.myapplication.utils.Constants.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

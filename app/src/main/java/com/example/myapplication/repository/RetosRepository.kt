@@ -4,16 +4,16 @@ import android.content.Context
 import com.example.myapplication.data.RetoDB
 import com.example.myapplication.data.RetoDao
 import com.example.myapplication.model.Reto
-//import com.example.myapplication.model.Pokemon
-//import com.example.myapplication.webservice.ApiService
-//import com.example.myapplication.webservice.ApiUtils
+import com.example.myapplication.model.Pokemon
+import com.example.myapplication.view.webservice.ApiService
+import com.example.myapplication.view.webservice.ApiUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class RetosRepository (val context: Context){
     private var retoDao:RetoDao = RetoDB.getDatabase(context).retoDao()
-    //private var apiService: ApiService = ApiUtils.getApiService()
+    private var apiService: ApiService = ApiUtils.getApiService()
     suspend fun saveReto(reto: Reto){
         withContext(Dispatchers.IO){
             retoDao.saveReto(reto)
@@ -31,18 +31,18 @@ class RetosRepository (val context: Context){
         }
     }
 
-    //suspend fun getPokemonList(): List<Pokemon> {
-        //return withContext(Dispatchers.IO){
-            //try {
-                //val response = apiService.getPokemonList()
-                //response.pokemon
-            //} catch (e: Exception){
+    suspend fun getPokemonList(): List<Pokemon> {
+        return withContext(Dispatchers.IO){
+            try {
+                val response = apiService.getPokemonList()
+                response.pokemon.map{ Pokemon(it.name, it.img) }
+            } catch (e: Exception){
                 // Manejar el error
-                //e.printStackTrace()
-                //mutableListOf()
-            //}
-        //}
-    //}
+                e.printStackTrace()
+                mutableListOf()
+            }
+        }
+    }
     suspend fun getRetoById(retoId: Int): Reto? {
         return withContext(Dispatchers.IO) {
             retoDao.getRetoById(retoId)
