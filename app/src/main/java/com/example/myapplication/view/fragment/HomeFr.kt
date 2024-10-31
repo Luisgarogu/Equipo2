@@ -19,6 +19,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.myapplication.viewmodel.SoundViewModel
 import kotlin.random.Random
+import androidx.navigation.fragment.findNavController
+import com.example.myapplication.view.dialog.RandomRetoDialog
+import com.example.myapplication.viewmodel.RetosViewModel
 
 
 class HomeFr : Fragment() {
@@ -30,10 +33,14 @@ class HomeFr : Fragment() {
     private lateinit var interfaceText: TextView
 
     private lateinit var soundButton: ImageView
+    private lateinit var plusButton: ImageView
     private lateinit var bottle: ImageView
     private var countStart = false
 
+
+
     private val soundViewModel: SoundViewModel by viewModels()
+    private val retosViewModel: RetosViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -59,7 +66,7 @@ class HomeFr : Fragment() {
         if(soundViewModel.musicEnabled.value == true){
             music.start()
         }
-        //BOTIN PRESIONAME
+        //BOTON PRESIONAME
         val lotButton = binding.pushButton
         val layoutParams = lotButton.layoutParams
 
@@ -88,6 +95,11 @@ class HomeFr : Fragment() {
             }
         }
 
+        plusButton = binding.toolbarContainer.findViewById(R.id.plus_button)
+        plusButton.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_retosListFragment)
+            music.pause()
+        }
 
         //BOTON DE VOLUMEN
         soundButton = binding.toolbarContainer.findViewById(R.id.sound_button)
@@ -99,6 +111,12 @@ class HomeFr : Fragment() {
 
         interfaceText = binding.contText
         interfaceText.visibility = View.GONE
+
+        // Extrae un reto aleatorio de la BD
+        retosViewModel.getRandomReto()
+
+        // Extrae los pokemons de la API
+        retosViewModel.getPokemonlist()
     }
 
     override fun onStop() {
@@ -151,7 +169,14 @@ class HomeFr : Fragment() {
                 if (!firstTime){
 
                     // CARGAR CHALLENGE
-                   // challengesModel.getResults... I GUESS
+                    retosViewModel.getRandomReto()
+
+                    val dialogBuilder = RandomRetoDialog(retosViewModel)
+                    val dialog = dialogBuilder.showDialog(binding.root.context)
+
+                    dialog.setOnDismissListener {
+                        onResume()
+                    }
                     countStart = false
                 }
             }
