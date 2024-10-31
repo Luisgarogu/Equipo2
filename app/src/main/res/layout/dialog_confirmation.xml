@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvDeleteTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="¿Desea eliminar el siguiente reto?:"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvRetoDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvDeleteTitle"
+        android:layout_centerHorizontal="true"
+        android:text="Descripción del reto"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btnCancelDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvRetoDescription"
+        android:layout_alignParentStart="true"
+        android:padding="8dp"
+        android:text="NO"
+        android:textColor="@color/orange"
+        android:backgroundTint="@color/white"
+
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btnConfirmDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvRetoDescription"
+        android:layout_alignParentEnd="true"
+        android:padding="8dp"
+        android:textColor="@color/orange"
+        android:backgroundTint="@color/white"
+        android:text="SI"
+        android:textSize="16sp" />
+
+</RelativeLayout>

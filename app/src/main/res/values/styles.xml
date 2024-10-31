@@ -9,4 +9,6 @@
         <item name="android:colorControlNormal">@color/orange</item>
         <item name="titleTextColor">@color/orange</item>
     </style>
+
+    <style name="RoundedFAB"></style>
 </resources>
