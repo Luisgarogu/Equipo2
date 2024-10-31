@@ -1,7 +1,10 @@
 package com.example.myapplication.view.fragment
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.media.MediaPlayer
+import android.net.Uri
 import com.example.myapplication.databinding.FrHomeBinding
 import com.example.myapplication.R
 import android.os.Bundle
@@ -26,7 +29,8 @@ import com.example.myapplication.viewmodel.RetosViewModel
 
 class HomeFr : Fragment() {
     private lateinit var binding: FrHomeBinding
-    private lateinit var music: MediaPlayer
+
+
 
     private lateinit var interfaceTimer: CountDownTimer
 
@@ -35,10 +39,13 @@ class HomeFr : Fragment() {
     private lateinit var soundButton: ImageView
     private lateinit var plusButton: ImageView
     private lateinit var bottle: ImageView
+    private lateinit var shareButton: ImageView
+    private lateinit var starButton: ImageView
+
+
     private var countStart = false
 
-
-
+    private lateinit var music: MediaPlayer
     private val soundViewModel: SoundViewModel by viewModels()
     private val retosViewModel: RetosViewModel by viewModels()
 
@@ -95,6 +102,7 @@ class HomeFr : Fragment() {
             }
         }
 
+        //BOTON DE NOTAS
         plusButton = binding.toolbarContainer.findViewById(R.id.plus_button)
         plusButton.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_retosListFragment)
@@ -105,6 +113,18 @@ class HomeFr : Fragment() {
         soundButton = binding.toolbarContainer.findViewById(R.id.sound_button)
         soundButton.setOnClickListener{
             soundHandler(music)
+        }
+
+        //BOTON DE COMPARTIR
+        shareButton = binding.toolbarContainer.findViewById(R.id.share_button)
+        shareButton.setOnClickListener{
+            sharApp()
+        }
+
+        //BOTON DE CALIFICAR
+        starButton = binding.toolbarContainer.findViewById(R.id.star_button)
+        starButton.setOnClickListener{
+            qualApp()
         }
 
         //CUENTA REGRESIVA
@@ -119,6 +139,46 @@ class HomeFr : Fragment() {
         retosViewModel.getPokemonlist()
     }
 
+
+    //CALIFICAR APLICACIÓN
+
+    private fun qualApp() {
+        //INICIALIZACIÓN DE VARIABLE PARA TOMAR EL URI DE LA PLAY STORE PARA CALIFICAR NEQUI
+        val playStoreURI = Uri
+                .parse("https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es&pli=1")
+
+        val playStoreInt = Intent(Intent.ACTION_VIEW, playStoreURI)
+        try {
+            //INTENTAR IR A LA PLAYSTORE
+            startActivity(playStoreInt)
+        } catch (e: ActivityNotFoundException) {
+            // SI NO ESTÁ LA APPSTORE USAR EL NAVEGADOR
+            playStoreInt.data = Uri
+                .parse("https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es&pli=1")
+            startActivity(playStoreInt)
+        }
+    }
+
+    //COMPARTIR APLICACION
+
+    private fun sharApp() {
+        val sentTry = Intent().apply {
+
+            action = Intent.ACTION_SEND
+            type = "text/plain"
+
+            putExtra(Intent
+                .EXTRA_TEXT,
+                "App pico botella " +
+                        "\nSolo los valientes lo juegan !!:" +
+                        "\n https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es")
+        }
+
+        val shareIntent = Intent.createChooser(sentTry, null)
+        startActivity(shareIntent)
+    }
+
+    //INACTIVAR MUSICA
     override fun onStop() {
         super.onStop()
         if (music.isPlaying){
@@ -126,14 +186,7 @@ class HomeFr : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if(soundViewModel.musicEnabled.value == true){
-            music.start()
-        } else {
-            soundButton.setImageResource(R.drawable.icon_no_sound)
-        }
-    }
+    //HANDLER PARA EL MANEJOR DEL SONIDO
     private fun soundHandler(music: MediaPlayer){
 
         if(music.isPlaying){
@@ -147,11 +200,21 @@ class HomeFr : Fragment() {
         }
 
     }
+    //PAUSAR MUSICA
+    override fun onResume() {
+        super.onResume()
+        if(soundViewModel.musicEnabled.value == true){
+            music.start()
+        } else {
+            soundButton.setImageResource(R.drawable.icon_no_sound)
+        }
+    }
 
+    //INICIAR CONTADOR
     private fun iniCount(initialNumber: Long, firstTime: Boolean = true){
         interfaceText.visibility = View.VISIBLE
 
-        // Resetear botón
+        // REINICIAR BOTON
         binding.pushButton.visibility = View.GONE
 
         interfaceTimer = object : CountDownTimer(initialNumber * 1000, 1000) {
