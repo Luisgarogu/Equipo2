@@ -19,35 +19,25 @@ class RetoViewHolder (binding: RetosListBinding,private val editClickListener: O
         bindingReto.tvDescription.text = reto.description
 
 
+
         bindingReto.ivEdit.setOnClickListener {
             // Llamar al método onEditClick del listener
+            animateTouch(bindingReto.ivEdit)
             editClickListener.onEditClick(reto.id)
         }
         bindingReto.ivDelete.setOnClickListener {
             // Llamar al método onDeleteClick del listener
+            animateTouch(bindingReto.ivDelete)
             editClickListener.onDeleteClick(reto.id)
         }
-
     }
 
-    private fun setTouchAnimation(imageView: ImageView) {
-        imageView.setOnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    // Escala hacia abajo en el eje X e Y cuando se presiona
-                    v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start()
-                    true
-                }
-                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                    // Restablece la escala original cuando se libera o se cancela
-                    v.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
-                    true
-                }
-                else -> false
-            }
-        }
+    private fun animateTouch(imageView: ImageView) {
+        // Escala hacia abajo en el eje X e Y cuando se presiona
+        imageView.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).withEndAction {
+            // Restablece la escala original después de la animación
+            imageView.animate().scaleX(1f).scaleY(1f).setDuration(100).start()
+        }.start()
     }
-
-
-
 }
+
