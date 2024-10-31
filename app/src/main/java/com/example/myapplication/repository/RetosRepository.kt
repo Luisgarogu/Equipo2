@@ -5,8 +5,8 @@ import com.example.myapplication.data.RetoDB
 import com.example.myapplication.data.RetoDao
 import com.example.myapplication.model.Reto
 import com.example.myapplication.model.Pokemon
-import com.example.myapplication.view.webservice.ApiService
-import com.example.myapplication.view.webservice.ApiUtils
+import com.example.myapplication.webservice.ApiService
+import com.example.myapplication.webservice.ApiUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext

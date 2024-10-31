@@ -41,6 +41,7 @@ class HomeFr : Fragment() {
     private lateinit var bottle: ImageView
     private lateinit var shareButton: ImageView
     private lateinit var starButton: ImageView
+    private lateinit var controllButton: ImageView
 
 
     private var countStart = false
@@ -101,31 +102,53 @@ class HomeFr : Fragment() {
                 else -> false
             }
         }
-
         //BOTON DE NOTAS
         plusButton = binding.toolbarContainer.findViewById(R.id.plus_button)
+        applyPressAnimation(plusButton)
         plusButton.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_retosListFragment)
-            music.pause()
+            // ESPERAR LA ANIMACIÓN
+            Handler(Looper.getMainLooper()).postDelayed({
+                findNavController().navigate(R.id.action_homeFragment_to_retosListFragment)
+                music.pause()
+            }, 200)
         }
 
         //BOTON DE VOLUMEN
         soundButton = binding.toolbarContainer.findViewById(R.id.sound_button)
-        soundButton.setOnClickListener{
-            soundHandler(music)
+        applyPressAnimation(soundButton)
+        soundButton.setOnClickListener {
+            Handler(Looper.getMainLooper()).postDelayed({
+                soundHandler(music)
+            }, 200)
         }
 
         //BOTON DE COMPARTIR
         shareButton = binding.toolbarContainer.findViewById(R.id.share_button)
-        shareButton.setOnClickListener{
-            sharApp()
+        applyPressAnimation(shareButton)
+        shareButton.setOnClickListener {
+            Handler(Looper.getMainLooper()).postDelayed({
+                sharApp()
+            }, 200)
         }
 
         //BOTON DE CALIFICAR
         starButton = binding.toolbarContainer.findViewById(R.id.star_button)
-        starButton.setOnClickListener{
-            qualApp()
+        applyPressAnimation(starButton)
+        starButton.setOnClickListener {
+            Handler(Looper.getMainLooper()).postDelayed({
+                qualApp()
+            }, 200)
         }
+
+        //BOTON REGLAS
+        controllButton = binding.toolbarContainer.findViewById(R.id.controll_button)
+        applyPressAnimation(controllButton)
+        controllButton.setOnClickListener {
+           Handler(Looper.getMainLooper()).postDelayed({
+               navRulesFragment(music)
+           }, 200)
+        }
+
 
         //CUENTA REGRESIVA
 
@@ -139,6 +162,12 @@ class HomeFr : Fragment() {
         retosViewModel.getPokemonlist()
     }
 
+    //NAVEGAR A LAS REGLAS
+
+    private fun navRulesFragment (music: MediaPlayer){
+        music.pause()
+        findNavController().navigate(R.id.action_homeFr_to_rulesFr)
+    }
 
     //CALIFICAR APLICACIÓN
 
@@ -295,6 +324,38 @@ class HomeFr : Fragment() {
         }, 5000)
     }
 
+    //ANIMACION DE CADA BOTON
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun applyPressAnimation(view: View) {
+        view.setOnTouchListener { _, motionEvent ->
+            when (motionEvent.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    // SIMULAR PRESIONAR BOTON AL ALTERAR ESCALAS X y Y
+                    ObjectAnimator.ofFloat(view, "scaleX", 0.9f).apply {
+                        duration = 100
+                        start()
+                    }
+                    ObjectAnimator.ofFloat(view, "scaleY", 0.9f).apply {
+                        duration = 100
+                        start()
+                    }
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    //VOLVER A LA ESCALA NORMAL
+                    ObjectAnimator.ofFloat(view, "scaleX", 1f).apply {
+                        duration = 100
+                        start()
+                    }
+                    ObjectAnimator.ofFloat(view, "scaleY", 1f).apply {
+                        duration = 100
+                        start()
+                    }
+                }
+            }
+            false
+        }
+    }
 
 
 

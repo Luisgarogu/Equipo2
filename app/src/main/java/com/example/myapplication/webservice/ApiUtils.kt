@@ -1,4 +1,4 @@
-package com.example.myapplication.view.webservice
+package com.example.myapplication.webservice
 
 class ApiUtils {
     companion object {
