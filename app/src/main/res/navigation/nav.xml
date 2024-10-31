@@ -11,19 +11,19 @@
         android:label="HomeFragment"
         tools:layout="@layout/fr_home">
 
-        <!--<action
-            android:id="@+id/action_homeFragment_to_rulesFragment"
-            app:destination="@id/rulesFragment" />-->
+        <action
+            android:id="@+id/action_homeFr_to_rulesFr"
+            app:destination="@id/rulesFragment" />
         <action
             android:id="@+id/action_homeFragment_to_retosListFragment"
             app:destination="@id/retosListFragment" />
     </fragment>
 
-    <!--<fragment
+    <fragment
         android:id="@+id/rulesFragment"
-        android:name="com.example.myapplication.view.fragment.RulesFragment"
+        android:name="com.example.myapplication.view.fragment.RulesFr"
         android:label="RulesFragment"
-        tools:layout="@layout/fragment_rules"/>-->
+        tools:layout="@layout/fr_rules"/>
 
     <fragment
         android:id="@+id/retosListFragment"

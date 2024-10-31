@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.model.Reto
+import com.example.myapplication.model.Pokemon
 import com.example.myapplication.repository.RetosRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -22,6 +23,9 @@ class RetosViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _randomReto = MutableLiveData<Reto?>()
     val randomReto: LiveData<Reto?> get() = _randomReto
+
+    private val _pokemonList = MutableLiveData<List<Pokemon>>()
+    val pokemonList: LiveData<List<Pokemon>> get() = _pokemonList
 
     private val _editRetoId = MutableLiveData<Int?>()
     val editRetoId: LiveData<Int?> get() = _editRetoId
@@ -46,11 +50,11 @@ class RetosViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    //fun getPokemonlist() {
-        //viewModelScope.launch {
-            //_pokemonList.value = retosRepository.getPokemonList()
-        //}
-    //}
+    fun getPokemonlist() {
+        viewModelScope.launch {
+            _pokemonList.value = retosRepository.getPokemonList()
+        }
+    }
 
     fun getRetoById(retoId: Int): Reto? {
         return runBlocking {
