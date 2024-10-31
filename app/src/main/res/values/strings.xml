@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">JuegoPicoBotella</string>
+    <string name="push_screen">Presióname</string>
+    <string name="countdown">3</string>
+</resources>
