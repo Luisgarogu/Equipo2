@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityLoginRegisterBinding
 import com.example.myapplication.viewmodel.LoginViewModel
+import com.example.myapplication.model.UserRequest
 
 class LoginRegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginRegisterBinding
@@ -39,7 +40,16 @@ class LoginRegisterActivity : AppCompatActivity() {
     }
 
     private fun registerUser() {
-        // Lógica para registro de usuario
+        val email = binding.emailLog.text.toString()
+        val pass = binding.passLog.text.toString()
+        val userRequest = UserRequest(email, pass)
+
+        if (email.isNotEmpty() && pass.isNotEmpty()) {
+            loginViewModel.registerUser(userRequest)
+        } else {
+            Toast.makeText(this, "Campos Vacíos", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun loginUser() {
