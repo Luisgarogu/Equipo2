@@ -1,7 +1,10 @@
 package com.example.myapplication.view.fragment
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.media.MediaPlayer
+import android.net.Uri
 import com.example.myapplication.databinding.FrHomeBinding
 import com.example.myapplication.R
 import android.os.Bundle
@@ -26,7 +29,8 @@ import com.example.myapplication.viewmodel.RetosViewModel
 
 class HomeFr : Fragment() {
     private lateinit var binding: FrHomeBinding
-    private lateinit var music: MediaPlayer
+
+
 
     private lateinit var interfaceTimer: CountDownTimer
 
@@ -35,10 +39,14 @@ class HomeFr : Fragment() {
     private lateinit var soundButton: ImageView
     private lateinit var plusButton: ImageView
     private lateinit var bottle: ImageView
+    private lateinit var shareButton: ImageView
+    private lateinit var starButton: ImageView
+    private lateinit var controllButton: ImageView
+
+
     private var countStart = false
 
-
-
+    private lateinit var music: MediaPlayer
     private val soundViewModel: SoundViewModel by viewModels()
     private val retosViewModel: RetosViewModel by viewModels()
 
@@ -94,18 +102,53 @@ class HomeFr : Fragment() {
                 else -> false
             }
         }
-
+        //BOTON DE NOTAS
         plusButton = binding.toolbarContainer.findViewById(R.id.plus_button)
+        applyPressAnimation(plusButton)
         plusButton.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_retosListFragment)
-            music.pause()
+            // ESPERAR LA ANIMACIÓN
+            Handler(Looper.getMainLooper()).postDelayed({
+                findNavController().navigate(R.id.action_homeFragment_to_retosListFragment)
+                music.pause()
+            }, 200)
         }
 
         //BOTON DE VOLUMEN
         soundButton = binding.toolbarContainer.findViewById(R.id.sound_button)
-        soundButton.setOnClickListener{
-            soundHandler(music)
+        applyPressAnimation(soundButton)
+        soundButton.setOnClickListener {
+            Handler(Looper.getMainLooper()).postDelayed({
+                soundHandler(music)
+            }, 200)
         }
+
+        //BOTON DE COMPARTIR
+        shareButton = binding.toolbarContainer.findViewById(R.id.share_button)
+        applyPressAnimation(shareButton)
+        shareButton.setOnClickListener {
+            Handler(Looper.getMainLooper()).postDelayed({
+                sharApp()
+            }, 200)
+        }
+
+        //BOTON DE CALIFICAR
+        starButton = binding.toolbarContainer.findViewById(R.id.star_button)
+        applyPressAnimation(starButton)
+        starButton.setOnClickListener {
+            Handler(Looper.getMainLooper()).postDelayed({
+                qualApp()
+            }, 200)
+        }
+
+        //BOTON REGLAS
+        controllButton = binding.toolbarContainer.findViewById(R.id.controll_button)
+        applyPressAnimation(controllButton)
+        controllButton.setOnClickListener {
+           Handler(Looper.getMainLooper()).postDelayed({
+               navRulesFragment(music)
+           }, 200)
+        }
+
 
         //CUENTA REGRESIVA
 
@@ -119,6 +162,52 @@ class HomeFr : Fragment() {
         retosViewModel.getPokemonlist()
     }
 
+    //NAVEGAR A LAS REGLAS
+
+    private fun navRulesFragment (music: MediaPlayer){
+        music.pause()
+        findNavController().navigate(R.id.action_homeFr_to_rulesFr)
+    }
+
+    //CALIFICAR APLICACIÓN
+
+    private fun qualApp() {
+        //INICIALIZACIÓN DE VARIABLE PARA TOMAR EL URI DE LA PLAY STORE PARA CALIFICAR NEQUI
+        val playStoreURI = Uri
+                .parse("https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es&pli=1")
+
+        val playStoreInt = Intent(Intent.ACTION_VIEW, playStoreURI)
+        try {
+            //INTENTAR IR A LA PLAYSTORE
+            startActivity(playStoreInt)
+        } catch (e: ActivityNotFoundException) {
+            // SI NO ESTÁ LA APPSTORE USAR EL NAVEGADOR
+            playStoreInt.data = Uri
+                .parse("https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es&pli=1")
+            startActivity(playStoreInt)
+        }
+    }
+
+    //COMPARTIR APLICACION
+
+    private fun sharApp() {
+        val sentTry = Intent().apply {
+
+            action = Intent.ACTION_SEND
+            type = "text/plain"
+
+            putExtra(Intent
+                .EXTRA_TEXT,
+                "App pico botella " +
+                        "\nSolo los valientes lo juegan !!:" +
+                        "\n https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es")
+        }
+
+        val shareIntent = Intent.createChooser(sentTry, null)
+        startActivity(shareIntent)
+    }
+
+    //INACTIVAR MUSICA
     override fun onStop() {
         super.onStop()
         if (music.isPlaying){
@@ -126,14 +215,7 @@ class HomeFr : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if(soundViewModel.musicEnabled.value == true){
-            music.start()
-        } else {
-            soundButton.setImageResource(R.drawable.icon_no_sound)
-        }
-    }
+    //HANDLER PARA EL MANEJOR DEL SONIDO
     private fun soundHandler(music: MediaPlayer){
 
         if(music.isPlaying){
@@ -147,11 +229,21 @@ class HomeFr : Fragment() {
         }
 
     }
+    //PAUSAR MUSICA
+    override fun onResume() {
+        super.onResume()
+        if(soundViewModel.musicEnabled.value == true){
+            music.start()
+        } else {
+            soundButton.setImageResource(R.drawable.icon_no_sound)
+        }
+    }
 
+    //INICIAR CONTADOR
     private fun iniCount(initialNumber: Long, firstTime: Boolean = true){
         interfaceText.visibility = View.VISIBLE
 
-        // Resetear botón
+        // REINICIAR BOTON
         binding.pushButton.visibility = View.GONE
 
         interfaceTimer = object : CountDownTimer(initialNumber * 1000, 1000) {
@@ -232,6 +324,38 @@ class HomeFr : Fragment() {
         }, 5000)
     }
 
+    //ANIMACION DE CADA BOTON
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun applyPressAnimation(view: View) {
+        view.setOnTouchListener { _, motionEvent ->
+            when (motionEvent.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    // SIMULAR PRESIONAR BOTON AL ALTERAR ESCALAS X y Y
+                    ObjectAnimator.ofFloat(view, "scaleX", 0.9f).apply {
+                        duration = 100
+                        start()
+                    }
+                    ObjectAnimator.ofFloat(view, "scaleY", 0.9f).apply {
+                        duration = 100
+                        start()
+                    }
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    //VOLVER A LA ESCALA NORMAL
+                    ObjectAnimator.ofFloat(view, "scaleX", 1f).apply {
+                        duration = 100
+                        start()
+                    }
+                    ObjectAnimator.ofFloat(view, "scaleY", 1f).apply {
+                        duration = 100
+                        start()
+                    }
+                }
+            }
+            false
+        }
+    }
 
 
 

@@ -1,4 +1,4 @@
-package com.example.myapplication.view.webservice
+package com.example.myapplication.webservice
 
 import com.example.myapplication.utils.Constants.BASE_URL
 import retrofit2.Retrofit
