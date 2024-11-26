@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "547360615097",
+    "project_id": "juegopicobotella",
+    "storage_bucket": "juegopicobotella.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547360615097:android:ba3a0086cdec2525568968",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZMOmdnPLfWMc2lO1yYBBqlZEcEWVQWak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
