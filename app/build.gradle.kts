@@ -79,11 +79,11 @@ dependencies {
     // LiveData
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
 
-    // Room
-    implementation ("androidx.room:room-runtime:2.5.2")
-    implementation ("androidx.room:room-ktx:2.5.2")
-    ksp("androidx.room:room-compiler:2.5.2")
-    implementation ("com.getbase:floatingactionbutton:1.10.1")
+//    // Room
+//    implementation ("androidx.room:room-runtime:2.5.2")
+//    implementation ("androidx.room:room-ktx:2.5.2")
+//    ksp("androidx.room:room-compiler:2.5.2")
+//    implementation ("com.getbase:floatingactionbutton:1.10.1")
 
 
     //Retrofit
@@ -105,4 +105,7 @@ dependencies {
 
     //AUTH
     implementation ("com.google.firebase:firebase-auth-ktx")
+
+    //firestore:
+    implementation ("com.google.firebase:firebase-firestore-ktx")
 }

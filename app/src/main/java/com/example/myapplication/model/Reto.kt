@@ -1,11 +1,9 @@
 package com.example.myapplication.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.google.firebase.Timestamp
 
-@Entity
 data class Reto(
-    @PrimaryKey (autoGenerate = true)
-    val id:Int = 0,
-    var description:String
+    var description: String = " ",
+    var documentId: String = " ",  // Agregado para almacenar el documentId
+    var createdAt: Timestamp? = null // Campo para almacenar la fecha y hora de creación
 )
