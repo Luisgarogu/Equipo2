@@ -76,6 +76,16 @@
                     android:src="@drawable/icon_star"
                     />
 
+                <ImageView
+                    android:id="@+id/logout_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="15dp"
+                    android:clickable="true"
+                    android:padding="2dp"
+                    android:src="@drawable/icon_logout" />
+
 
             </androidx.appcompat.widget.Toolbar>
 

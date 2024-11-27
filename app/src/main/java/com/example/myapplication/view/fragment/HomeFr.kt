@@ -42,6 +42,7 @@ class HomeFr : Fragment() {
     private lateinit var shareButton: ImageView
     private lateinit var starButton: ImageView
     private lateinit var controllButton: ImageView
+    private lateinit var logout_button: ImageView
 
 
     private var countStart = false
@@ -149,6 +150,15 @@ class HomeFr : Fragment() {
            }, 200)
         }
 
+        //BOTON DE CERRAR SESION
+        logout_button = binding.toolbarContainer.findViewById(R.id.logout_button)
+        applyPressAnimation(logout_button)
+        logout_button.setOnClickListener {
+            Handler(Looper.getMainLooper()).postDelayed({
+                navLogin(music)
+            }, 200)
+        }
+
 
         //CUENTA REGRESIVA
 
@@ -167,6 +177,12 @@ class HomeFr : Fragment() {
     private fun navRulesFragment (music: MediaPlayer){
         music.pause()
         findNavController().navigate(R.id.action_homeFr_to_rulesFr)
+    }
+
+    //CERRAR SESION
+    private fun navLogin (music: MediaPlayer){
+        music.pause()
+        findNavController().navigate(R.id.action_homeFr_to_LoginRegisterActivity)
     }
 
     //CALIFICAR APLICACIÓN
