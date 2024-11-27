@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.RetosListBinding
 import com.example.myapplication.model.Reto
 interface OnEditClickListener {
-    fun onEditClick(retoId: Int)
-    fun onDeleteClick(retoId: Int)
+    fun onEditClick(documentId: String)
+    fun onDeleteClick(documentId: String)
 }
 
 class RetoViewHolder (binding: RetosListBinding,private val editClickListener: OnEditClickListener):RecyclerView.ViewHolder(binding.root) {
@@ -23,12 +23,12 @@ class RetoViewHolder (binding: RetosListBinding,private val editClickListener: O
         bindingReto.ivEdit.setOnClickListener {
             // Llamar al método onEditClick del listener
             animateTouch(bindingReto.ivEdit)
-            editClickListener.onEditClick(reto.id)
+            editClickListener.onEditClick(reto.documentId)
         }
         bindingReto.ivDelete.setOnClickListener {
             // Llamar al método onDeleteClick del listener
             animateTouch(bindingReto.ivDelete)
-            editClickListener.onDeleteClick(reto.id)
+            editClickListener.onDeleteClick(reto.documentId)
         }
     }
 
