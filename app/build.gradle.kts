@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -99,4 +100,9 @@ dependencies {
 
     implementation ("androidx.core:core-splashscreen:1.0.1")
 
+    //Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+
+    //AUTH
+    implementation ("com.google.firebase:firebase-auth-ktx")
 }

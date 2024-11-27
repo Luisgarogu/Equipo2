@@ -11,6 +11,8 @@
         android:background="@color/black"
         tools:context=".view.LoginRegisterActivity">
 
+
+
         <TextView
             android:id="@+id/tvTitleLogin"
             android:layout_width="wrap_content"
