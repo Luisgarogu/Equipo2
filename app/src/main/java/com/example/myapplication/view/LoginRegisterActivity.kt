@@ -25,6 +25,24 @@ class LoginRegisterActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("shared", Context.MODE_PRIVATE)
         setup()
+        sesion()
+        viewModelObservers()
+    }
+
+    private fun viewModelObservers() {
+        observerIsRegister()
+    }
+
+    private fun observerIsRegister() {
+        loginViewModel.isRegister.observe(this) { userResponse ->
+            if (userResponse.isRegister) {
+                Toast.makeText(this, userResponse.message, Toast.LENGTH_SHORT).show()
+                sharedPreferences.edit().putString("email",userResponse.email).apply()
+                goToHome()
+            } else {
+                Toast.makeText(this, userResponse.message, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setup() {
@@ -78,5 +96,15 @@ class LoginRegisterActivity : AppCompatActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
+    }
+
+    private fun sesion(){
+        val email = sharedPreferences.getString("email",null)
+        loginViewModel.sesion(email){ isEnableView ->
+            if (isEnableView){
+                binding.formlogin.visibility = View.INVISIBLE
+                goToHome()
+            }
+        }
     }
 }

@@ -21,12 +21,28 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun loginUser(email: String, pass: String, isLogin: (Boolean) -> Unit) {
-        // Simulación de autenticación (reemplazar con lógica real)
-        if (email == "test@example.com" && pass == "1234") {
-            isLogin(true) // Login exitoso
+    fun sesion(email: String?, isEnableView: (Boolean) -> Unit) {
+        if (email != null) {
+            isEnableView(true)
         } else {
-            isLogin(false) // Login fallido
+            isEnableView(false)
+        }
+    }
+
+    fun loginUser(email: String, pass: String, isLogin: (Boolean) -> Unit) {
+
+        if (email.isNotEmpty() && pass.isNotEmpty()) {
+            FirebaseAuth.getInstance()
+                .signInWithEmailAndPassword(email, pass)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        isLogin(true)
+                    } else {
+                        isLogin(false)
+                    }
+                }
+        } else {
+            isLogin(false)
         }
     }
 }
