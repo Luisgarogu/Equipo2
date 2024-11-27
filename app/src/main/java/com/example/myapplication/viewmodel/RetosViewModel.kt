@@ -38,15 +38,18 @@ class RetosViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getRetosList() {
         viewModelScope.launch {
-            _retosList.value = retosRepository.getRetosList()
+            val retosList = retosRepository.getRetosList()
+            // Convierte la lista de pares (documentId, Reto) a solo la lista de objetos Reto
+            _retosList.value = retosList.map { it.second }.toMutableList()
         }
     }
 
+
+    // RetosViewModel: Obtener y actualizar el reto aleatorio
     fun getRandomReto() {
         viewModelScope.launch {
-            retosRepository.getRandomReto().collect { reto ->
-                _randomReto.value = reto
-            }
+            val randomReto = retosRepository.getRandomReto()
+            _randomReto.value = randomReto  // Asigna el reto aleatorio a LiveData
         }
     }
 
@@ -56,33 +59,28 @@ class RetosViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getRetoById(retoId: Int): Reto? {
+    fun getRetoById(documentId: String): Reto? {
         return runBlocking {
-            retosRepository.getRetoById(retoId)
+            retosRepository.getRetoById(documentId)
         }
     }
 
-    // Método para actualizar la descripción de un Challenge
-
-    fun updateRetoDescription(retoId: Int, newDescription: String) {
+    fun updateRetoDescription(documentId: String, newDescription: String) {
         viewModelScope.launch {
-            // Obtener el desafío por ID
-            val retoToUpdate = retosRepository.getRetoById(retoId)
+            val retoToUpdate = retosRepository.getRetoById(documentId)
 
-            // Actualizar la descripción si se encontró el desafío
+            // Aquí verificas que el reto existe, y luego actualizas su descripción
             if (retoToUpdate != null) {
-                retoToUpdate.description = newDescription
-                retosRepository.updateReto(retoToUpdate)
-
-                // Actualizar la lista de desafíos después de la actualización
-                _retosList.value = retosRepository.getRetosList()
+                // Actualizamos solo la descripción del reto
+                retosRepository.updateReto(documentId, newDescription)  // Llamada al repositorio con los parámetros correctos
+                _retosList.value = retosRepository.getRetosList().map { it.second }.toMutableList()  // Actualizamos la lista después de la actualización
             }
         }
     }
 
-    fun deleteReto(retoId: Int) {
+    fun deleteReto(documentId: String) {
         viewModelScope.launch {
-            retosRepository.deleteReto(retoId)
+            retosRepository.deleteReto(documentId)
 
             // Después de eliminar el desafío, actualiza la lista
             getRetosList()

@@ -3,10 +3,21 @@
   <component name="deploymentTargetSelector">
     <selectionStates>
       <SelectionState runConfigName="app">
+<<<<<<< HEAD
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="MainActivity">
         <option name="selectionMode" value="DROPDOWN" />
+=======
+        <option name="selectionMode" value="DROPDOWN" />
+        <DropdownSelection timestamp="2024-11-27T01:36:24.042087600Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Mateo\.android\avd\Pixel_8_Pro_API_35_1.avd" />
+            </handle>
+          </Target>
+        </DropdownSelection>
+>>>>>>> 161589257cabf554b237f8425250b4525119699d
         <DialogSelection />
       </SelectionState>
     </selectionStates>

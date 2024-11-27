@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.FragmentRetosListBinding
+import com.example.myapplication.model.Reto
 import com.example.myapplication.view.adapter.RetoAdapter
 import com.example.myapplication.view.dialog.AddRetoDialog
 import com.example.myapplication.view.viewholder.OnEditClickListener
@@ -50,8 +51,8 @@ class RetosListFragment : Fragment(), OnEditClickListener {
     private fun setupRecyclerView() {
         val recycler = binding.recyclerview
         val layoutManager = LinearLayoutManager(context)
-        layoutManager.reverseLayout = true
-        layoutManager.stackFromEnd = true
+//        layoutManager.reverseLayout = true
+//        layoutManager.stackFromEnd = true
         recycler.layoutManager = layoutManager
         val adapter = RetoAdapter(retosViewModel.retosList.value ?: mutableListOf(), this)
         recycler.adapter = adapter
@@ -68,6 +69,8 @@ class RetosListFragment : Fragment(), OnEditClickListener {
         }
     }
 
+
+
     private fun observerRetosList() {
         retosViewModel.getRetosList()
         retosViewModel.retosList.observe(viewLifecycleOwner) { retosList ->
@@ -77,15 +80,14 @@ class RetosListFragment : Fragment(), OnEditClickListener {
     }
 
 
-    override fun onEditClick(retoId: Int) {
+    override fun onEditClick(documentId: String) {
         // Aquí deberías abrir un AlertDialog o hacer alguna otra acción cuando se haga clic en Editar.
-        // Puedes utilizar el ID del reto (retoId) para realizar operaciones adicionales.
-        println("Edit Clicked for Reto ID: $retoId")
-        showEditDialog(retoId)
+        println("Edit Clicked for Reto ID: $documentId")
+        showEditDialog(documentId)
     }
 
     @SuppressLint("MissingInflatedId")
-    private fun showEditDialog(retoId: Int) {
+    private fun showEditDialog(documentId: String) {
         val viewModel = retosViewModel // Reemplaza con tu referencia real al ViewModel
 
         // Inflate del layout personalizado
@@ -102,10 +104,8 @@ class RetosListFragment : Fragment(), OnEditClickListener {
         val alertDialog = AlertDialog.Builder(requireContext()).create()
         alertDialog.setView(customLayout)
 
-        // Configuración del título
-
-        // Obtener el reto por ID
-        val currentReto = viewModel.getRetoById(retoId)
+        // Obtener el reto por documentId
+        val currentReto = viewModel.getRetoById(documentId)
 
         // Establecer la descripción actual en el EditText
         etDescription.setText(currentReto?.description)
@@ -115,7 +115,7 @@ class RetosListFragment : Fragment(), OnEditClickListener {
             // Manejar clic en botón Guardar
             val newDescription = etDescription.text.toString()
             currentReto?.let {
-                viewModel.updateRetoDescription(it.id, newDescription)
+                viewModel.updateRetoDescription(it.documentId, newDescription) // Usamos documentId aquí
             }
             alertDialog.dismiss()
         }
@@ -134,13 +134,13 @@ class RetosListFragment : Fragment(), OnEditClickListener {
 
 
 
-    override fun onDeleteClick(retoId: Int) {
+    override fun onDeleteClick(documentId: String) {
         // Lógica para manejar el clic en el botón de eliminar
         // Puedes mostrar un diálogo de confirmación para la eliminación aquí.
-        showDeleteConfirmationDialog(retoId)
+        showDeleteConfirmationDialog(documentId)
     }
 
-    private fun showDeleteConfirmationDialog(retoId: Int) {
+    private fun showDeleteConfirmationDialog(documentId: String) {
         val inflater = requireActivity().layoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_confirmation, null)
 
@@ -154,14 +154,14 @@ class RetosListFragment : Fragment(), OnEditClickListener {
         val tvRetoDescription = dialogView.findViewById<TextView>(R.id.tvRetoDescription)
 
         // Obtener el reto por ID
-        val currentReto = retosViewModel.getRetoById(retoId)
+        val currentReto = retosViewModel.getRetoById(documentId)
 
         // Mostrar la descripción del reto en el TextView del diálogo
         tvRetoDescription.text = currentReto?.description ?: "No description available"
 
         btnConfirmDelete.setOnClickListener {
             // Lógica para eliminar el desafío
-            retosViewModel.deleteReto(retoId)
+            retosViewModel.deleteReto(documentId)
             alertDialog.dismiss()
         }
 

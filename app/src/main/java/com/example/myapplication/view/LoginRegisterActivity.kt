@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityLoginRegisterBinding
 import com.example.myapplication.viewmodel.LoginViewModel
+import com.example.myapplication.model.UserRequest
 
 class LoginRegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginRegisterBinding
@@ -24,6 +25,24 @@ class LoginRegisterActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("shared", Context.MODE_PRIVATE)
         setup()
+        sesion()
+        viewModelObservers()
+    }
+
+    private fun viewModelObservers() {
+        observerIsRegister()
+    }
+
+    private fun observerIsRegister() {
+        loginViewModel.isRegister.observe(this) { userResponse ->
+            if (userResponse.isRegister) {
+                Toast.makeText(this, userResponse.message, Toast.LENGTH_SHORT).show()
+                sharedPreferences.edit().putString("email",userResponse.email).apply()
+                goToHome()
+            } else {
+                Toast.makeText(this, userResponse.message, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setup() {
@@ -39,7 +58,16 @@ class LoginRegisterActivity : AppCompatActivity() {
     }
 
     private fun registerUser() {
-        // Lógica para registro de usuario
+        val email = binding.emailLog.text.toString()
+        val pass = binding.passLog.text.toString()
+        val userRequest = UserRequest(email, pass)
+
+        if (email.isNotEmpty() && pass.isNotEmpty()) {
+            loginViewModel.registerUser(userRequest)
+        } else {
+            Toast.makeText(this, "Campos Vacíos", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun loginUser() {
@@ -77,5 +105,15 @@ class LoginRegisterActivity : AppCompatActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
+    }
+
+    private fun sesion(){
+        val email = sharedPreferences.getString("email",null)
+        loginViewModel.sesion(email){ isEnableView ->
+            if (isEnableView){
+                binding.formlogin.visibility = View.INVISIBLE
+                goToHome()
+            }
+        }
     }
 }

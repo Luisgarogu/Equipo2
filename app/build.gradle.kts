@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -78,11 +79,11 @@ dependencies {
     // LiveData
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
 
-    // Room
-    implementation ("androidx.room:room-runtime:2.5.2")
-    implementation ("androidx.room:room-ktx:2.5.2")
-    ksp("androidx.room:room-compiler:2.5.2")
-    implementation ("com.getbase:floatingactionbutton:1.10.1")
+//    // Room
+//    implementation ("androidx.room:room-runtime:2.5.2")
+//    implementation ("androidx.room:room-ktx:2.5.2")
+//    ksp("androidx.room:room-compiler:2.5.2")
+//    implementation ("com.getbase:floatingactionbutton:1.10.1")
 
 
     //Retrofit
@@ -99,4 +100,12 @@ dependencies {
 
     implementation ("androidx.core:core-splashscreen:1.0.1")
 
+    //Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
+
+    //AUTH
+    implementation ("com.google.firebase:firebase-auth-ktx")
+
+    //firestore:
+    implementation ("com.google.firebase:firebase-firestore-ktx")
 }
