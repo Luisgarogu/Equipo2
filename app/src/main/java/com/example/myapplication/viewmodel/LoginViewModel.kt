@@ -1,6 +1,8 @@
 package com.example.myapplication.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
+import com.example.myapplication.R
 
 class LoginViewModel : ViewModel() {
 

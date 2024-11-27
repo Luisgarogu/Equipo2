@@ -63,6 +63,15 @@ class LoginRegisterActivity : AppCompatActivity() {
         }
     }
 
+    private fun logoutUser() {
+        val sharedPreferences = getSharedPreferences("user_session", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+        setContentView(R.layout.activity_login_register)
+
+    }
+
     private fun goToHome() {
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
