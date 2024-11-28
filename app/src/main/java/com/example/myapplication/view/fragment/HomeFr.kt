@@ -182,7 +182,7 @@ class HomeFr : Fragment() {
     //CERRAR SESION
     private fun navLogin (music: MediaPlayer){
         music.pause()
-        findNavController().navigate(R.id.action_homeFr_to_LoginRegisterActivity)
+        findNavController().navigate.setContentView(R.layout.activity_login_register)
     }
 
     //CALIFICAR APLICACIÓN
