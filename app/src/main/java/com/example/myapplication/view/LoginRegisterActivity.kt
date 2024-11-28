@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -27,6 +29,7 @@ class LoginRegisterActivity : AppCompatActivity() {
         setup()
         sesion()
         viewModelObservers()
+        setupTextWatchers()
     }
 
     private fun viewModelObservers() {
@@ -105,6 +108,54 @@ class LoginRegisterActivity : AppCompatActivity() {
                 binding.formlogin.visibility = View.INVISIBLE
                 goToHome()
             }
+        }
+    }
+    private fun setupTextWatchers() {
+        val emailWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // No se requiere implementación
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                checkFields()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // No se requiere implementación
+            }
+        }
+
+        val passWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // No se requiere implementación
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                checkFields()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // No se requiere implementación
+            }
+        }
+
+        binding.emailLog.addTextChangedListener(emailWatcher)
+        binding.passLog.addTextChangedListener(passWatcher)
+    }
+
+    private fun checkFields() {
+        val email = binding.emailLog.text.toString().trim()
+        val pass = binding.passLog.text.toString().trim()
+
+        if (email.isNotEmpty() && pass.isNotEmpty()) {
+            // Cambiar el color del TextView "Registrarse" a blanco y habilitarlo
+            binding.tvRegister.setTextColor(resources.getColor(R.color.white_enabled))
+            binding.tvRegister.isEnabled = true
+            binding.tvRegister.setTextColor(resources.getColor(R.color.white_enabled)) // Asegura que el color se actualice
+        } else {
+            // Cambiar el color del TextView "Registrarse" a gris e inhabilitarlo
+            binding.tvRegister.setTextColor(resources.getColor(R.color.gray_disabled))
+            binding.tvRegister.isEnabled = false
         }
     }
 }

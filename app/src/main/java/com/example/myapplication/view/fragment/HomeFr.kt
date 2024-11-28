@@ -2,6 +2,7 @@ package com.example.myapplication.view.fragment
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
@@ -53,12 +54,13 @@ class HomeFr : Fragment() {
     private val soundViewModel: SoundViewModel by viewModels()
     private val retosViewModel: RetosViewModel by viewModels()
 
-
+    private lateinit var sharedPreferences: android.content.SharedPreferences
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
+
     ): View? {
         binding = FrHomeBinding.inflate(inflater)
         binding.lifecycleOwner = this
@@ -70,6 +72,10 @@ class HomeFr : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Inicializar SharedPreferences
+
+        sharedPreferences = requireActivity().getSharedPreferences("shared", Context.MODE_PRIVATE)
+
         //BOTELLA INI
         bottle = binding.bottle
 
@@ -184,13 +190,17 @@ class HomeFr : Fragment() {
     }
 
     //CERRAR SESION
-    private fun navLogin (music: MediaPlayer){
+    private fun navLogin(music: MediaPlayer) {
         music.pause()
+        FirebaseAuth.getInstance().signOut()
+
+        // Limpiar "email" de SharedPreferences
+        sharedPreferences.edit().remove("email").apply()
+
+        // Redirigir al LoginRegisterActivity
         val intent = Intent(requireActivity(), LoginRegisterActivity::class.java)
         startActivity(intent)
         requireActivity().finish()
-        FirebaseAuth.getInstance().signOut()
-        //findNavController().navigate.setContentView(R.layout.activity_login_register)
     }
 
     //CALIFICAR APLICACIÓN
