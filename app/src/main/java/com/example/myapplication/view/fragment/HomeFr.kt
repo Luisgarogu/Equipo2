@@ -23,8 +23,10 @@ import androidx.fragment.app.viewModels
 import com.example.myapplication.viewmodel.SoundViewModel
 import kotlin.random.Random
 import androidx.navigation.fragment.findNavController
+import com.example.myapplication.view.LoginRegisterActivity
 import com.example.myapplication.view.dialog.RandomRetoDialog
 import com.example.myapplication.viewmodel.RetosViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 
 class HomeFr : Fragment() {
@@ -42,6 +44,7 @@ class HomeFr : Fragment() {
     private lateinit var shareButton: ImageView
     private lateinit var starButton: ImageView
     private lateinit var controllButton: ImageView
+    private lateinit var logout_button: ImageView
 
 
     private var countStart = false
@@ -49,6 +52,8 @@ class HomeFr : Fragment() {
     private lateinit var music: MediaPlayer
     private val soundViewModel: SoundViewModel by viewModels()
     private val retosViewModel: RetosViewModel by viewModels()
+
+
 
 
     override fun onCreateView(
@@ -144,9 +149,18 @@ class HomeFr : Fragment() {
         controllButton = binding.toolbarContainer.findViewById(R.id.controll_button)
         applyPressAnimation(controllButton)
         controllButton.setOnClickListener {
-           Handler(Looper.getMainLooper()).postDelayed({
-               navRulesFragment(music)
-           }, 200)
+            Handler(Looper.getMainLooper()).postDelayed({
+                navRulesFragment(music)
+            }, 200)
+        }
+
+        //BOTON DE CERRAR SESION
+        logout_button = binding.toolbarContainer.findViewById(R.id.logout_button)
+        applyPressAnimation(logout_button)
+        logout_button.setOnClickListener {
+            Handler(Looper.getMainLooper()).postDelayed({
+                navLogin(music)
+            }, 200)
         }
 
 
@@ -169,12 +183,22 @@ class HomeFr : Fragment() {
         findNavController().navigate(R.id.action_homeFr_to_rulesFr)
     }
 
+    //CERRAR SESION
+    private fun navLogin (music: MediaPlayer){
+        music.pause()
+        val intent = Intent(requireActivity(), LoginRegisterActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
+        FirebaseAuth.getInstance().signOut()
+        //findNavController().navigate.setContentView(R.layout.activity_login_register)
+    }
+
     //CALIFICAR APLICACIÓN
 
     private fun qualApp() {
         //INICIALIZACIÓN DE VARIABLE PARA TOMAR EL URI DE LA PLAY STORE PARA CALIFICAR NEQUI
         val playStoreURI = Uri
-                .parse("https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es&pli=1")
+            .parse("https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es&pli=1")
 
         val playStoreInt = Intent(Intent.ACTION_VIEW, playStoreURI)
         try {
@@ -298,7 +322,7 @@ class HomeFr : Fragment() {
 
         // OBJETO DE ROTACION CON ANGULO BOTELLA Y EL ANGULO ALEATORIO
         val rotation = ObjectAnimator
-                        .ofFloat(bottle, "rotation", currPosRotation, randomAngle)
+            .ofFloat(bottle, "rotation", currPosRotation, randomAngle)
 
         // GIRAR 4 SEGUNDOS
         rotation.duration = 4000
@@ -356,7 +380,4 @@ class HomeFr : Fragment() {
             false
         }
     }
-
-
-
 }
