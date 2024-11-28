@@ -62,11 +62,13 @@
                 android:id="@+id/passLog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
+                android:inputType="numberPassword"
                 android:hint="Password"
                 android:textColorHint="@android:color/darker_gray"
                 android:padding="16dp"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:maxLength="10"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -89,7 +91,8 @@
             android:textStyle="bold"
             android:clickable="true"
             android:layout_marginTop="50dp"
-            android:textColor="@color/gray"
+            android:textColor="@color/gray_disabled"
+            android:enabled="false"
             app:layout_constraintTop_toBottomOf="@+id/btnLogin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

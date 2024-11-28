@@ -24,9 +24,19 @@
                 app:theme="@style/toolbarThemeHome">
 
                 <ImageView
+                    android:id="@+id/logout_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="15dp"
+                    android:clickable="true"
+                    android:padding="2dp"
+                    android:src="@drawable/icon_logout" />
+
+                <ImageView
                     android:id="@+id/share_button"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="end"
                     android:layout_marginEnd="15dp"
                     android:clickable="true"
@@ -35,8 +45,8 @@
 
                 <ImageView
                     android:id="@+id/plus_button"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="end"
                     android:layout_marginEnd="15dp"
                     android:clickable="true"
@@ -45,8 +55,8 @@
 
                 <ImageView
                     android:id="@+id/controll_button"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="end"
                     android:layout_marginEnd="15dp"
                     android:clickable="true"
@@ -55,8 +65,8 @@
 
                 <ImageView
                     android:id="@+id/sound_button"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="end"
                     android:layout_marginEnd="15dp"
                     android:clickable="true"
@@ -65,14 +75,15 @@
 
                 <ImageView
                     android:id="@+id/star_button"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="end"
                     android:layout_marginEnd="15dp"
                     android:clickable="true"
                     android:padding="2dp"
                     android:src="@drawable/icon_star"
                     />
+
 
 
             </androidx.appcompat.widget.Toolbar>

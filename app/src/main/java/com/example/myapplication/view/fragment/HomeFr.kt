@@ -2,6 +2,7 @@ package com.example.myapplication.view.fragment
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
@@ -23,8 +24,10 @@ import androidx.fragment.app.viewModels
 import com.example.myapplication.viewmodel.SoundViewModel
 import kotlin.random.Random
 import androidx.navigation.fragment.findNavController
+import com.example.myapplication.view.LoginRegisterActivity
 import com.example.myapplication.view.dialog.RandomRetoDialog
 import com.example.myapplication.viewmodel.RetosViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 
 class HomeFr : Fragment() {
@@ -42,6 +45,7 @@ class HomeFr : Fragment() {
     private lateinit var shareButton: ImageView
     private lateinit var starButton: ImageView
     private lateinit var controllButton: ImageView
+    private lateinit var logout_button: ImageView
 
 
     private var countStart = false
@@ -50,10 +54,13 @@ class HomeFr : Fragment() {
     private val soundViewModel: SoundViewModel by viewModels()
     private val retosViewModel: RetosViewModel by viewModels()
 
+    private lateinit var sharedPreferences: android.content.SharedPreferences
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
+
     ): View? {
         binding = FrHomeBinding.inflate(inflater)
         binding.lifecycleOwner = this
@@ -65,6 +72,10 @@ class HomeFr : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Inicializar SharedPreferences
+
+        sharedPreferences = requireActivity().getSharedPreferences("shared", Context.MODE_PRIVATE)
+
         //BOTELLA INI
         bottle = binding.bottle
 
@@ -144,9 +155,18 @@ class HomeFr : Fragment() {
         controllButton = binding.toolbarContainer.findViewById(R.id.controll_button)
         applyPressAnimation(controllButton)
         controllButton.setOnClickListener {
-           Handler(Looper.getMainLooper()).postDelayed({
-               navRulesFragment(music)
-           }, 200)
+            Handler(Looper.getMainLooper()).postDelayed({
+                navRulesFragment(music)
+            }, 200)
+        }
+
+        //BOTON DE CERRAR SESION
+        logout_button = binding.toolbarContainer.findViewById(R.id.logout_button)
+        applyPressAnimation(logout_button)
+        logout_button.setOnClickListener {
+            Handler(Looper.getMainLooper()).postDelayed({
+                navLogin(music)
+            }, 200)
         }
 
 
@@ -169,12 +189,26 @@ class HomeFr : Fragment() {
         findNavController().navigate(R.id.action_homeFr_to_rulesFr)
     }
 
+    //CERRAR SESION
+    private fun navLogin(music: MediaPlayer) {
+        music.pause()
+        FirebaseAuth.getInstance().signOut()
+
+        // Limpiar "email" de SharedPreferences
+        sharedPreferences.edit().remove("email").apply()
+
+        // Redirigir al LoginRegisterActivity
+        val intent = Intent(requireActivity(), LoginRegisterActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
+    }
+
     //CALIFICAR APLICACIÓN
 
     private fun qualApp() {
         //INICIALIZACIÓN DE VARIABLE PARA TOMAR EL URI DE LA PLAY STORE PARA CALIFICAR NEQUI
         val playStoreURI = Uri
-                .parse("https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es&pli=1")
+            .parse("https://play.google.com/store/apps/details?id=com.nequi.MobileApp&hl=es_419&gl=es&pli=1")
 
         val playStoreInt = Intent(Intent.ACTION_VIEW, playStoreURI)
         try {
@@ -298,7 +332,7 @@ class HomeFr : Fragment() {
 
         // OBJETO DE ROTACION CON ANGULO BOTELLA Y EL ANGULO ALEATORIO
         val rotation = ObjectAnimator
-                        .ofFloat(bottle, "rotation", currPosRotation, randomAngle)
+            .ofFloat(bottle, "rotation", currPosRotation, randomAngle)
 
         // GIRAR 4 SEGUNDOS
         rotation.duration = 4000
@@ -356,7 +390,4 @@ class HomeFr : Fragment() {
             false
         }
     }
-
-
-
 }

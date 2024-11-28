@@ -49,14 +49,15 @@ dependencies {
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    //testing
+    // Testing
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito:mockito-core:3.12.4")
-    testImplementation("org.mockito:mockito-inline:3.12.4")
-    testImplementation ("org.mockito:mockito-android:3.11.2")
-    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
-    testImplementation ("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("org.mockito:mockito-core:4.11.0")
+    testImplementation("org.mockito:mockito-inline:4.11.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
 
+    // Android Instrumented Tests
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
@@ -79,11 +80,11 @@ dependencies {
     // LiveData
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
 
-    // Room
-    implementation ("androidx.room:room-runtime:2.5.2")
-    implementation ("androidx.room:room-ktx:2.5.2")
-    ksp("androidx.room:room-compiler:2.5.2")
-    implementation ("com.getbase:floatingactionbutton:1.10.1")
+//    // Room
+//    implementation ("androidx.room:room-runtime:2.5.2")
+//    implementation ("androidx.room:room-ktx:2.5.2")
+//    ksp("androidx.room:room-compiler:2.5.2")
+//    implementation ("com.getbase:floatingactionbutton:1.10.1")
 
 
     //Retrofit
@@ -105,4 +106,7 @@ dependencies {
 
     //AUTH
     implementation ("com.google.firebase:firebase-auth-ktx")
+
+    //firestore:
+    implementation ("com.google.firebase:firebase-firestore-ktx")
 }
