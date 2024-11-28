@@ -3,6 +3,7 @@ package com.example.myapplication.view
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -111,6 +112,7 @@ class LoginRegisterActivity : AppCompatActivity() {
         }
     }
     private fun setupTextWatchers() {
+        // TextWatcher para el campo de Email
         val emailWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // No se requiere implementación
@@ -125,6 +127,7 @@ class LoginRegisterActivity : AppCompatActivity() {
             }
         }
 
+        // TextWatcher para el campo de Contraseña
         val passWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // No se requiere implementación
@@ -139,6 +142,7 @@ class LoginRegisterActivity : AppCompatActivity() {
             }
         }
 
+        // Añadir los TextWatchers a los EditTexts
         binding.emailLog.addTextChangedListener(emailWatcher)
         binding.passLog.addTextChangedListener(passWatcher)
     }
@@ -147,11 +151,12 @@ class LoginRegisterActivity : AppCompatActivity() {
         val email = binding.emailLog.text.toString().trim()
         val pass = binding.passLog.text.toString().trim()
 
-        if (email.isNotEmpty() && pass.isNotEmpty()) {
-            // Cambiar el color del TextView "Registrarse" a blanco y habilitarlo
+        // Verificar si el email no está vacío y la contraseña tiene entre 6 y 10 números
+        if (email.isNotEmpty() && pass.length in 6..10) {
+            // Cambiar el color del TextView "Registrarse" a blanco bold y habilitarlo
             binding.tvRegister.setTextColor(resources.getColor(R.color.white_enabled))
             binding.tvRegister.isEnabled = true
-            binding.tvRegister.setTextColor(resources.getColor(R.color.white_enabled)) // Asegura que el color se actualice
+            binding.tvRegister.setTypeface(null, Typeface.BOLD)
         } else {
             // Cambiar el color del TextView "Registrarse" a gris e inhabilitarlo
             binding.tvRegister.setTextColor(resources.getColor(R.color.gray_disabled))
