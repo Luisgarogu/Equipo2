@@ -45,7 +45,8 @@
                 android:hint="Email"
                 android:textColorHint="@android:color/darker_gray"
                 android:padding="16dp"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:maxLength="40" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -67,7 +68,7 @@
                 android:textColorHint="@android:color/darker_gray"
                 android:padding="16dp"
                 android:textSize="18sp"
-                android:maxLength="10"/>
+                android:maxLength="10" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -151,16 +151,33 @@ class LoginRegisterActivity : AppCompatActivity() {
         val email = binding.emailLog.text.toString().trim()
         val pass = binding.passLog.text.toString().trim()
 
+        // Referencia al TextInputLayout de la contraseña
+        val tilPass = binding.tilPass
+
         // Verificar si el email no está vacío y la contraseña tiene entre 6 y 10 números
         if (email.isNotEmpty() && pass.length in 6..10) {
+            // Cambiar el color del cuadro al estado normal (sin error)
+            tilPass.error = null
+            tilPass.isErrorEnabled = false
+
             // Cambiar el color del TextView "Registrarse" a blanco bold y habilitarlo
             binding.tvRegister.setTextColor(resources.getColor(R.color.white_enabled))
             binding.tvRegister.isEnabled = true
             binding.tvRegister.setTypeface(null, Typeface.BOLD)
         } else {
+            // Si la contraseña tiene de 1 a 5 caracteres, muestra el error
+            if (pass.length in 1..5) {
+                tilPass.error = "Mínimo 6 dígitos"
+            } else {
+                // Si la contraseña está vacía, elimina el mensaje de error
+                tilPass.error = null
+                tilPass.isErrorEnabled = false
+            }
+
             // Cambiar el color del TextView "Registrarse" a gris e inhabilitarlo
             binding.tvRegister.setTextColor(resources.getColor(R.color.gray_disabled))
             binding.tvRegister.isEnabled = false
         }
     }
+
 }
